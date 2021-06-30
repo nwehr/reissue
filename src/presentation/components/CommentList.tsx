@@ -26,6 +26,11 @@ const CommentList = (props: CommentListProps) => {
 
         setError(null)
         fetch()
+
+        return () => {
+            setComments([])
+            setError(null)
+        }
     }, [props.controller, props.issueId])
 
     const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,17 +43,13 @@ const CommentList = (props: CommentListProps) => {
         setMyComment("")
     }
 
-    // const handleDeleteComment = (commentId: number) => async () => {
-        
-    // }
-
     if (error) {
         return <p>{error}</p>
     }
 
     return <>
         {
-            comments.map((comment: Comment) => <CommentCard comment={comment} />)
+            comments.map((comment: Comment) => <CommentCard key={comment.id} comment={comment} />)
         }
 
         <Form onSubmit={handleSubmitComment}>
