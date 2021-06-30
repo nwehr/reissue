@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Form, Button } from "react-bootstrap"
-import { Comment, ICommentRepo } from "../../core/entities/comment"
-import { MemCommentRepo } from "../../repos/commentrepo"
+import { Comment } from "../../core/entities/comment"
 import { CommentListController } from "../controllers/CommentListController"
 
 import CommentCard from "./Comment"
@@ -14,14 +13,20 @@ export interface CommentListProps {
 const CommentList = (props: CommentListProps) => {
     const [comments, setComments] = useState<Comment[]>([])
     const [myComment, setMyComment] = useState<string>("")
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetch = async () => {
-            setComments(await props.controller.getComments(props.issueId))
+            try {
+                setComments(await props.controller.getComments(props.issueId))
+            } catch(err) {
+                setError(err)
+            }
         }
 
+        setError(null)
         fetch()
-    })
+    }, [props.controller, props.issueId])
 
     const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMyComment(e.currentTarget.value)
@@ -33,8 +38,12 @@ const CommentList = (props: CommentListProps) => {
         setMyComment("")
     }
 
-    const handleDeleteComment = (commentId: number) => async () => {
+    // const handleDeleteComment = (commentId: number) => async () => {
         
+    // }
+
+    if (error) {
+        return <p>{error}</p>
     }
 
     return <>

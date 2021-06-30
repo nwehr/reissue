@@ -1,7 +1,7 @@
 import { Issue, IIssueRepo } from "../../core/entities/issue";
 import axios from "axios"
 
-export class GithubIssueRepo implements IIssueRepo {
+export class GitlabIssueRepo implements IIssueRepo {
     baseUrl: string
     authToken: string
 
@@ -12,25 +12,24 @@ export class GithubIssueRepo implements IIssueRepo {
 
     async getIssues(): Promise<Issue[]> {
         try {
-            const result = await axios.get(this.baseUrl + "/issues", { headers: { "Authorization": "Bearer " + this.authToken } })
+            const resp = await axios.get(this.baseUrl + "/issues", { headers: { "Authorization": "Bearer " + this.authToken } })
 
-            return result.data.map((json: any) => {
-                const { number, state, title, body, comments } = json
-                return { id: number, state, title, body, comments }
+            return resp.data.map((json: any) => {
+                const { id, state, title, body } = json
+                return { id, state, title, body, comments: 0 }
             })
-        } catch(err) {
+        } catch (err) {
             return new Promise((resolve, reject) => {
                 reject("Oops! Could not retrieve your issues.")
             })
         }
-        
     }
 
     async createIssue(title: string): Promise<Issue> {
         try {
             const result = await axios.post(this.baseUrl + "/issues", { title }, { headers: { "Authorization": "Bearer " + this.authToken } })
-            const { number, state, body, comments} = result.data
-            return { id: number, state, title: result.data.title, body, comments }
+            const { id, state, body } = result.data
+            return { id, state, title: result.data.title, body, comments: 0 }
         } catch(err) {
             return new Promise((resolve, reject) => {
                 reject("Oops! Could not create an issues.")

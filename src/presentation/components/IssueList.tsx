@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Form, Col, Button, InputGroup } from "react-bootstrap"
+import { Form, Button, InputGroup } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { Issue } from "../../core/entities/issue"
 import { AppState } from "../../state/store"
@@ -14,17 +14,26 @@ export interface IssueListProps {
 const IssueList = (props: IssueListProps) => {
     const [issues, setIssues] = useState<Issue[]>([])
     const [myIssue, setMyIssue] = useState<string>("")
+    const [error, setError] = useState<string | null>(null)
 
     const selectedProject = useSelector((state: AppState) => state.selectedProject)
 
     useEffect(() => {
         const fetch = async () => {
-            setIssues(await props.controller.getIssues())
+            try {
+                setIssues(await props.controller.getIssues())
+            } catch(err) {
+                setError(err)
+            }
         }
 
         setIssues([])
-        fetch()
-    }, [selectedProject?.name])
+        setError(null)
+        
+        if (selectedProject?.name) {
+            fetch()
+        }
+    }, [props.controller, selectedProject?.name])
 
     const handleUpdateMyIssue = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMyIssue(e.currentTarget.value)
@@ -34,6 +43,10 @@ const IssueList = (props: IssueListProps) => {
         e.preventDefault()
         setIssues([...issues, await props.controller.createIssue(myIssue)])
         setMyIssue("")
+    }
+
+    if (error) {
+        return <p className="text-danger">{error}</p>
     }
 
     return <>
@@ -52,7 +65,7 @@ const IssueList = (props: IssueListProps) => {
 
 
         {
-            issues.map((issue: Issue) => <IssueCard issue={issue} />)
+            issues.map((issue: Issue) => <IssueCard key={issue.id} issue={issue} />)
         }
     </>
 }

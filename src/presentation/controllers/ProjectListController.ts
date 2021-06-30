@@ -26,7 +26,7 @@ export class ProjectListController {
         const projects = this.getProjects()
 
         for (let project of projects) {
-            if (project.name == name) {
+            if (project.name === name) {
                 store.dispatch(setSelectedProject(project))
                 return project
             }

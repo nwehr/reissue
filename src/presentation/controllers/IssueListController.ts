@@ -1,5 +1,6 @@
 import { IIssueRepo, Issue } from "../../core/entities/issue";
 import { GithubIssueRepo } from "../../repos/github/issuerepo";
+import { GitlabIssueRepo } from "../../repos/gitlab/issuerepo";
 import store from "../../state/store";
 
 export class IssueListController {
@@ -13,6 +14,11 @@ export class IssueListController {
         const project = store.getState().selectedProject
 
         if (project) {
+            if (project.schema === "gitlab") {
+                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken)
+                return repo.getIssues()
+            }
+
             const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
             return repo.getIssues()
         }
@@ -26,6 +32,11 @@ export class IssueListController {
         const project = store.getState().selectedProject
 
         if (project) {
+            if (project.schema === "gitlab") {
+                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken)
+                return repo.createIssue(title)
+            }
+
             const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
             return repo.createIssue(title)
         }

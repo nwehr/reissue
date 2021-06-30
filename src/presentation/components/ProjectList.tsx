@@ -28,10 +28,15 @@ const ProjectList = (props: ProjectListProps) => {
             {
                 projects.length
                     ? projects.map((project: Project) => {
-                        const active = selectedProject ? selectedProject.name == project.name : false
+                        const active = selectedProject ? selectedProject.name === project.name : false
 
-                        return <Nav.Link active={active} eventKey={project.name} onClick={handleSelectProject(project.name)}>
-                            <FaGithub /> {project.name}
+                        return <Nav.Link key={project.name} active={active} eventKey={project.name} onClick={handleSelectProject(project.name)}>
+                            {
+                                project.schema === "gitlab"
+                                ? <FaGitlab />
+                                : <FaGithub />
+                            }
+                            {" "}{project.name}
                         </Nav.Link>
                     })
                     : <div style={{ textAlign: "center", margin: "1em" }}>
@@ -81,6 +86,10 @@ const NewProjectModal = (props: NewProjectModalProps) => {
         setProject({ ...project, authToken: e.currentTarget.value.trim() })
     }
 
+    const handleUpdateSchema = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setProject({ ...project, schema: e.currentTarget.value.trim() })
+    }
+
     const valid = () => {
         if (!project.name || !project.baseUrl || !project.authToken) {
             return false
@@ -112,12 +121,12 @@ const NewProjectModal = (props: NewProjectModalProps) => {
                     <Form.Group controlId="formAuthToken">
                         <Form.Label>Personal Access Token</Form.Label>
                         <Form.Control type="text" onChange={handleUpdateAuthToken} />
-                        <Form.Text style={{ color: "gray" }}>See <a href="https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank">docs</a> on creating a personal access token.</Form.Text>
+                        <Form.Text style={{ color: "gray" }}>See <a href="https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank" rel="noreferrer">docs</a> on creating a personal access token.</Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formAuthToken">
                         <Form.Label>Schema</Form.Label>
-                        <Form.Control as="select" disabled>
+                        <Form.Control as="select" onChange={handleUpdateSchema}>
                             <option>github</option>
                             <option>gitlab</option>
                         </Form.Control>

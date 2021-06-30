@@ -1,6 +1,4 @@
-import { Row, Col } from "react-bootstrap"
 import IssueList from "./presentation/components/IssueList"
-import { MemIssueRepo } from "./repos/issuerepo"
 import Sidebar from "./presentation/components/Sidebar"
 import { IssueListController } from "./presentation/controllers/IssueListController"
 
