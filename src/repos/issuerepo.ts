@@ -7,12 +7,14 @@ export class MemIssueRepo implements IIssueRepo {
             , state: "open"
             , title: "An issues"
             , body: ""
+            , comments: 0
         }
         , {
             id: 101
             , state: "open"
             , title: "Another issue"
             , body: "Here is the body"
+            , comments: 0
         }
     ]
 
@@ -29,6 +31,7 @@ export class MemIssueRepo implements IIssueRepo {
                 , state: "open"
                 , title
                 , body: ""
+                , comments: 0
             }
 
             this.issues.push(issue)

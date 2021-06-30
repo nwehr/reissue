@@ -3,6 +3,7 @@ export class Issue {
     state: string
     title: string
     body: string
+    comments: number = 0
 
     constructor(id: number, state: string, title: string, body: string) {
         this.id = id

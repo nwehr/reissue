@@ -52,7 +52,7 @@ const IssueList = (props: IssueListProps) => {
 
 
         {
-            issues.map((issue: Issue) => <IssueCard id={issue.id} title={issue.title} body={issue.body} />)
+            issues.map((issue: Issue) => <IssueCard issue={issue} />)
         }
     </>
 }
