@@ -1,23 +1,4 @@
-import { Project, IProjectRepo } from "./project"
-
-class MemProjectRepo implements IProjectRepo {
-    projects: Project[] = [
-        {
-            baseUrl: "http://someendpoint"
-            , authToken: "abc123"
-            , schema: "github"
-        }
-        , {
-            baseUrl: "http://anotherendpoint"
-            , authToken: "123abc"
-            , schema: "gitlab"
-        }
-    ]
-
-    getProjects(): Project[] {
-        return this.projects
-    }
-}
+import { MemProjectRepo } from "../../repos/projectrepo"
 
 test("get projects", () => {
     const repo = new MemProjectRepo()

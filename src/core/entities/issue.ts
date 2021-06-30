@@ -13,5 +13,5 @@ export class Issue {
 }
 
 export interface IIssueRepo {
-    getIssues(): Issue[]
+    getIssues(): Promise<Issue[]>
 }

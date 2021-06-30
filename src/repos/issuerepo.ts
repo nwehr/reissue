@@ -16,7 +16,9 @@ export class MemIssueRepo implements IIssueRepo {
         }
     ]
 
-    getIssues(): Issue[] {
-        return this.issues
+    getIssues(): Promise<Issue[]> {
+        return new Promise((resolve, reject) => {
+            resolve(this.issues)
+        })
     }
 }
