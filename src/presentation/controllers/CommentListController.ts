@@ -15,4 +15,17 @@ export class CommentListController {
             reject("No project selected")
         })
     }
+
+    createComment(issueId: number, body: string): Promise<Comment> {
+        const project = store.getState().selectedProject
+
+        if (project) {
+            const repo = new GithubCommentRepo(project.baseUrl, project.authToken)
+            return repo.createComment(issueId, body)
+        }
+
+        return new Promise((resolve, reject) => {
+            reject("No project selected")
+        })
+    }
 }

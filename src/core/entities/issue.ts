@@ -14,4 +14,5 @@ export class Issue {
 
 export interface IIssueRepo {
     getIssues(): Promise<Issue[]>
+    createIssue(title: string): Promise<Issue>
 }

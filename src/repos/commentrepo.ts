@@ -19,4 +19,24 @@ export class MemCommentRepo implements ICommentRepo {
             resolve(this.comments.filter((comment: any) => comment.issue_id === issueId))
         })
     }
+
+    createComment(issueId: number, body: string): Promise<Comment> {
+        return new Promise((resolve, reject) => {
+            const comment = {
+                id: 99
+                , body
+                , issue_id: issueId
+                , createdAt: ""
+                , updatedAt: ""
+                , author: {
+                    id: 0
+                    , userName: ""
+                }
+            }
+
+            this.comments.push(comment)
+
+            resolve(comment)
+        })
+    }
 }

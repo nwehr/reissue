@@ -18,4 +18,10 @@ export class GithubIssueRepo implements IIssueRepo {
             return { id: number, state, title, body }
         })
     }
+
+    async createIssue(title: string): Promise<Issue> {
+        const result = await axios.post(this.baseUrl + "/issues", { title }, { headers: { "Authorization": "Bearer " + this.authToken } })
+        const { number, state, body } = result.data
+        return { id: number, state, title: result.data.title, body }
+    }
 }

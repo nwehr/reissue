@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
+import { Form, Col, Button, InputGroup } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { Issue } from "../../core/entities/issue"
 import { AppState } from "../../state/store"
@@ -12,6 +13,8 @@ export interface IssueListProps {
 
 const IssueList = (props: IssueListProps) => {
     const [issues, setIssues] = useState<Issue[]>([])
+    const [myIssue, setMyIssue] = useState<string>("")
+
     const selectedProject = useSelector((state: AppState) => state.selectedProject)
 
     useEffect(() => {
@@ -23,7 +26,31 @@ const IssueList = (props: IssueListProps) => {
         fetch()
     }, [selectedProject?.name])
 
+    const handleUpdateMyIssue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMyIssue(e.currentTarget.value)
+    }
+
+    const handleSubmitMyIssue = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setIssues([...issues, await props.controller.createIssue(myIssue)])
+        setMyIssue("")
+    }
+
     return <>
+        {
+            selectedProject
+                ? <Form style={{ marginBottom: "1em" }} onSubmit={handleSubmitMyIssue}>
+                    <InputGroup>
+                        <Form.Control value={myIssue} onChange={handleUpdateMyIssue} />
+                        <InputGroup.Append>
+                            <Button type="submit">Add Issue</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Form>
+                : null
+        }
+
+
         {
             issues.map((issue: Issue) => <IssueCard id={issue.id} title={issue.title} body={issue.body} />)
         }

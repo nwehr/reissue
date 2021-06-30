@@ -21,4 +21,17 @@ export class IssueListController {
             reject("No project selected")
         })
     }
+
+    createIssue(title: string): Promise<Issue> {
+        const project = store.getState().selectedProject
+
+        if (project) {
+            const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
+            return repo.createIssue(title)
+        }
+
+        return new Promise((resolve, reject) => {
+            reject("No project selected")
+        })
+    }
 }

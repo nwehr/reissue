@@ -19,4 +19,5 @@ export class Comment {
 
 export interface ICommentRepo {
     getComments(issueId: number): Promise<Comment[]>
+    createComment(issueId: number, body: string): Promise<Comment>
 }

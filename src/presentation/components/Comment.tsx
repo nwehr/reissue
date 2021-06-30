@@ -9,7 +9,7 @@ export interface CommentCardProps {
 const CommentCard = (props: CommentCardProps) => {
     const createdAt = moment(props.comment.createdAt).format("llll")
 
-    return <Card>
+    return <Card style={{marginBottom: "1em"}}>
         <Card.Body>
             <Card.Text>{props.comment.body}</Card.Text>
             <Card.Text>{createdAt} <b>{props.comment.author.userName}</b></Card.Text>
