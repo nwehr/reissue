@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Button, Modal, Form, Nav } from "react-bootstrap"
 import { BsArrowDown } from "react-icons/bs"
+import { FaGithub, FaGitlab } from "react-icons/fa"
 import { Project } from "../../core/entities/project"
 import { ProjectListController } from "../controllers/ProjectListController"
 
@@ -30,13 +31,13 @@ const ProjectList = (props: ProjectListProps) => {
                         const active = selectedProject ? selectedProject.name == project.name : false
 
                         return <Nav.Link active={active} eventKey={project.name} onClick={handleSelectProject(project.name)}>
-                            {project.name}
+                            <FaGithub /> {project.name}
                         </Nav.Link>
                     })
                     : <div style={{ textAlign: "center", margin: "1em" }}>
                         <span style={{ color: "gray" }}>Add your first project.</span>
                         <div>
-                            <BsArrowDown size="1.5em"  color="gray" style={{marginTop: "1.5em"}} />
+                            <BsArrowDown size="1.5em" color="gray" style={{ marginTop: "1.5em" }} />
                         </div>
                     </div>
             }
@@ -105,13 +106,13 @@ const NewProjectModal = (props: NewProjectModalProps) => {
                     <Form.Group controlId="formBaseUrl">
                         <Form.Label>Base URL</Form.Label>
                         <Form.Control type="text" onChange={handleUpdateBaseUrl} />
-                        <Form.Text style={{color: "gray"}}>e.g. {"https://api.github.com/repos/{owner}/{project}"}</Form.Text>
+                        <Form.Text style={{ color: "gray" }}>e.g. {"https://api.github.com/repos/{owner}/{project}"}</Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formAuthToken">
                         <Form.Label>Personal Access Token</Form.Label>
                         <Form.Control type="text" onChange={handleUpdateAuthToken} />
-                        <Form.Text style={{color: "gray"}}>See <a href="https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank">docs</a> on creating a personal access token.</Form.Text>
+                        <Form.Text style={{ color: "gray" }}>See <a href="https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank">docs</a> on creating a personal access token.</Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formAuthToken">
