@@ -16,7 +16,7 @@ export class GithubIssueRepo implements IIssueRepo {
 
     async getIssues(): Promise<Issue[]> {
         try {
-            const resp = await axios.get(this.baseUrl + "/issues", this.config)
+            const resp = await axios.get(`${this.baseUrl}/issues`, this.config)
             const { data } = resp
 
             const issues = data.map((json: any) => {
@@ -29,10 +29,10 @@ export class GithubIssueRepo implements IIssueRepo {
                 }
             })
 
-            return issues
+            return issues.filter((issue: Issue) => issue.state === "open")
         } catch (err) {
             return new Promise((_, reject) => {
-                reject("Oops! Could not retrieve your issues.")
+                reject("Oops! Could not retrieve issues.")
             })
         }
 
@@ -40,7 +40,7 @@ export class GithubIssueRepo implements IIssueRepo {
 
     async createIssue(title: string, body: string): Promise<Issue> {
         try {
-            const resp = await axios.post(this.baseUrl + "/issues", { title, body }, this.config)
+            const resp = await axios.post(`${this.baseUrl}/issues`, { title, body }, this.config)
             const { data } = resp
 
             const issue = {
@@ -55,6 +55,18 @@ export class GithubIssueRepo implements IIssueRepo {
         } catch (err) {
             return new Promise((_, reject) => {
                 reject("Oops! Could not create an issues.")
+            })
+        }
+    }
+
+    async closeIssue(id: number): Promise<boolean> {
+        try {
+            const resp = await axios.patch(`${this.baseUrl}/issues/${id}`, { state: "closed" }, this.config)
+            console.log(resp)
+            return true
+        } catch (err) {
+            return new Promise((_, reject) => {
+                reject("Oops! Could not close an issues.")
             })
         }
     }

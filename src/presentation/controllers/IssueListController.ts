@@ -23,7 +23,7 @@ export class IssueListController {
             return repo.getIssues()
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((_, reject) => {
             reject("No project selected")
         })
     }
@@ -41,7 +41,25 @@ export class IssueListController {
             return repo.createIssue(title, body)
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((_, reject) => {
+            reject("No project selected")
+        })
+    }
+
+    closeIssue(id: number): Promise<boolean> {
+        const project = store.getState().selectedProject
+
+        if (project) {
+            if (project.schema === "gitlab") {
+                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken)
+                return repo.closeIssue(id)
+            }
+
+            const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
+            return repo.closeIssue(id)
+        }
+
+        return new Promise((_, reject) => {
             reject("No project selected")
         })
     }

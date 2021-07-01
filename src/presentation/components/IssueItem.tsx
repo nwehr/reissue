@@ -1,19 +1,21 @@
 import { useState } from "react"
-import { Card } from "react-bootstrap"
-import { Issue as IssueFields } from "../../core/entities/issue"
+import { Card, Button } from "react-bootstrap"
+import { Issue } from "../../core/entities/issue"
 import { CommentListController } from "../controllers/CommentListController"
 import CommentList from "./CommentList"
 
-export interface IssueProps {
-    issue: IssueFields
+export interface IssueItemProps {
+    issue: Issue
+    onCloseIssue: (id: number) => void
 }
 
-const Issue = (props: IssueProps) => {
+const IssueItem = (props: IssueItemProps) => {
     const { issue } = props
     const [showComments, setShowComments] = useState<boolean>(false)
 
     return <Card style={{ marginBottom: "1em" }}>
         <Card.Body>
+            <Button variant="outline-danger" size="sm" style={{ float: "right" }} onClick={() => props.onCloseIssue(issue.id)}>Close Issue</Button>
             <Card.Text>{issue.title}</Card.Text>
             {
                 issue.body
@@ -39,4 +41,4 @@ const Issue = (props: IssueProps) => {
     </Card>
 }
 
-export default Issue
+export default IssueItem

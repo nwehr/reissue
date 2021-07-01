@@ -9,4 +9,5 @@ export interface Issue {
 export interface IIssueRepo {
     getIssues(): Promise<Issue[]>
     createIssue(title: string, body: string): Promise<Issue>
+    closeIssue(id: number): Promise<boolean>
 }

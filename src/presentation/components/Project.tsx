@@ -10,7 +10,7 @@ import { IssueModalController } from "../controllers/IssueModalController"
 
 const Project = () => {
     const { selectedProject, numProjects } = useSelector((state: AppState) => state)
-    const [numCreatedIssues, setNumCreatedIssues] = useState<number>(0)
+    const [numIssues, setNumIssues] = useState<number>(0)
 
     if (!selectedProject) {
         if (!numProjects) {
@@ -32,12 +32,11 @@ const Project = () => {
             </Col>
             <Col>
                 <Button style={{ float: "right" }} variant="secondary" disabled>Project Settings</Button>
-                <IssueModal controller={new IssueModalController()} onCreatedNewIssue={() => setNumCreatedIssues(numCreatedIssues + 1)} />
-                {/* <Button style={{ float: "right", marginRight: ".5em" }}>New Issue</Button> */}
+                <IssueModal controller={new IssueModalController()} onCreatedNewIssue={() => setNumIssues(numIssues + 1)} />
             </Col>
         </Row>
 
-        <IssueList numCreatedIssues={numCreatedIssues} controller={new IssueListController()} />
+        <IssueList numIssues={numIssues} controller={new IssueListController()} />
     </>
 }
 

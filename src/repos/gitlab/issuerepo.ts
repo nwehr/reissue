@@ -57,4 +57,15 @@ export class GitlabIssueRepo implements IIssueRepo {
             })
         }
     }
+
+    async closeIssue(id: number): Promise<boolean> {
+        try {
+            await axios.patch(`${this.baseUrl}/issues/${id}`, { state: "closed" }, this.config)
+            return true
+        } catch (err) {
+            return new Promise((_, reject) => {
+                reject("Oops! Could not close an issues.")
+            })
+        }
+    }
 }

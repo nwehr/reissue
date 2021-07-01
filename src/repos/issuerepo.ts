@@ -39,4 +39,20 @@ export class MemIssueRepo implements IIssueRepo {
             resolve(issue)
         })
     }
+
+    closeIssue(id: number): Promise<boolean> {
+        const issues: Issue[] = []
+
+        for (let issue of this.issues) {
+            if (issue.id != id) {
+                issues.push(issue)
+            }
+        }
+
+        this.issues = issues
+
+        return new Promise((resolve, _) => {
+            resolve(true)
+        })
+    }
 }

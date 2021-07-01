@@ -1,4 +1,4 @@
-import { IIssueRepo, Issue } from "../../core/entities/issue";
+import { Issue } from "../../core/entities/issue";
 import { GithubIssueRepo } from "../../repos/github/issuerepo";
 import { GitlabIssueRepo } from "../../repos/gitlab/issuerepo";
 import store from "../../state/store";

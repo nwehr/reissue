@@ -4,31 +4,30 @@ import { Issue } from "../../core/entities/issue"
 import { AppState } from "../../state/store"
 
 import { IssueListController } from "../controllers/IssueListController"
-import IssueCard from "./Issue"
+import IssueItem from "./IssueItem"
 
 export interface IssueListProps {
     controller: IssueListController
-    numCreatedIssues: number
+    numIssues: number
 }
 
 const IssueList = (props: IssueListProps) => {
-    const [issues, setIssues] = useState<Issue[]>([])
-    const [error, setError] = useState<string | null>(null)
-
+    const { controller, numIssues } = props
     const { selectedProject } = useSelector((state: AppState) => state)
 
+    const [issues, setIssues] = useState<Issue[]>([])
+    const [closedIssueIds, setClosedIssueIds] = useState<number[]>([])
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchIssues = async () => {
             try {
-                setIssues(await props.controller.getIssues())
+                setError(null)
+                setIssues(await controller.getIssues())
             } catch (err) {
                 setError(err)
             }
         }
-
-        setIssues([])
-        setError(null)
 
         if (selectedProject?.name) {
             fetchIssues()
@@ -38,7 +37,15 @@ const IssueList = (props: IssueListProps) => {
             setIssues([])
             setError(null)
         }
-    }, [props.controller, selectedProject?.name, props.numCreatedIssues])
+    }, [controller, selectedProject?.name, numIssues])
+
+    const handleCloseIssue = async (id: number) => {
+        const success = await controller.closeIssue(id)
+
+        if (success) {
+            setClosedIssueIds([...closedIssueIds, id])
+        }
+    }
 
     if (error) {
         return <p className="text-danger">{error}</p>
@@ -46,7 +53,19 @@ const IssueList = (props: IssueListProps) => {
 
     return <>
         {
-            issues.map((issue: Issue) => <IssueCard key={issue.id} issue={issue} />)
+            issues
+                .filter((issue: Issue) => {
+                    for (let id of closedIssueIds) {
+                        if (id == issue.id) {
+                            return false
+                        }
+                    }
+
+                    return true
+                })
+                .map((issue: Issue) => {
+                    return <IssueItem key={issue.id} issue={issue} onCloseIssue={handleCloseIssue} />
+                })
         }
     </>
 }
