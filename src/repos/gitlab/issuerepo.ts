@@ -21,7 +21,7 @@ export class GitlabIssueRepo implements IIssueRepo {
 
             const issues = data.map((json: any) => {
                 return {
-                    id: json.id
+                    id: json.iid
                     , state: json.state
                     , title: json.title
                     , body: json.body
@@ -60,7 +60,7 @@ export class GitlabIssueRepo implements IIssueRepo {
 
     async closeIssue(id: number): Promise<boolean> {
         try {
-            await axios.patch(`${this.baseUrl}/issues/${id}`, { state: "closed" }, this.config)
+            await axios.put(`${this.baseUrl}/issues/${id}`, { "state_event": "close" }, this.config)
             return true
         } catch (err) {
             return new Promise((_, reject) => {
