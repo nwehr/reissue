@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Form, Button, InputGroup } from "react-bootstrap"
+// import { Form, Button, InputGroup } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { Issue } from "../../core/entities/issue"
 import { AppState } from "../../state/store"
@@ -13,7 +13,7 @@ export interface IssueListProps {
 
 const IssueList = (props: IssueListProps) => {
     const [issues, setIssues] = useState<Issue[]>([])
-    const [myIssue, setMyIssue] = useState<string>("")
+    // const [myIssue, setMyIssue] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
 
     const selectedProject = useSelector((state: AppState) => state.selectedProject)
@@ -33,24 +33,29 @@ const IssueList = (props: IssueListProps) => {
         if (selectedProject?.name) {
             fetch()
         }
+
+        return () => {
+            setIssues([])
+            setError(null)
+        }
     }, [props.controller, selectedProject?.name])
 
-    const handleUpdateMyIssue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMyIssue(e.currentTarget.value)
-    }
+    // const handleUpdateMyIssue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setMyIssue(e.currentTarget.value)
+    // }
 
-    const handleSubmitMyIssue = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        setIssues([...issues, await props.controller.createIssue(myIssue)])
-        setMyIssue("")
-    }
+    // const handleSubmitMyIssue = async (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault()
+    //     setIssues([...issues, await props.controller.createIssue(myIssue)])
+    //     setMyIssue("")
+    // }
 
     if (error) {
         return <p className="text-danger">{error}</p>
     }
 
     return <>
-        {
+        {/* {
             selectedProject
                 ? <Form style={{ marginBottom: "1em" }} onSubmit={handleSubmitMyIssue}>
                     <InputGroup>
@@ -61,7 +66,7 @@ const IssueList = (props: IssueListProps) => {
                     </InputGroup>
                 </Form>
                 : null
-        }
+        } */}
 
 
         {

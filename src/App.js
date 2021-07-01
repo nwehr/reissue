@@ -4,7 +4,7 @@ import Project from "./presentation/components/Project"
 const App = () => {
 	return <div>
 		<Sidebar />
-		<div style={{marginLeft: "16em"}}>
+		<div style={{marginLeft: "15em"}}>
 			<Project />
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 
 import store from "../../state/store"
-import { setSelectedProject } from "../../state/actions"
+import { setSelectedProject, setNumProjects } from "../../state/actions"
 import { Project, IProjectRepo } from "../../core/entities/project"
 
 export class ProjectListController {
@@ -11,7 +11,9 @@ export class ProjectListController {
     }
 
     getProjects(): Project[] {
-        return this.repo.getProjects()
+        const projects = this.repo.getProjects()
+        store.dispatch(setNumProjects(projects.length))
+        return projects
     }
 
     createProject(project: Project): Project {

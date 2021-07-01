@@ -39,6 +39,11 @@ const CommentList = (props: CommentListProps) => {
 
     const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        if (!myComment.length) {
+            return
+        }
+
         setComments([...comments, await props.controller.createComment(props.issueId, myComment)])
         setMyComment("")
     }
