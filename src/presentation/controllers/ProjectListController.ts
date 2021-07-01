@@ -14,8 +14,8 @@ export class ProjectListController {
         return this.repo.getProjects()
     }
 
-    createProject(name: string, baseUrl: string, authToken: string, schema: string = "github"): Project {
-        return this.repo.createProject(name, baseUrl, authToken, schema)
+    createProject(project: Project): Project {
+        return this.repo.createProject(project)
     }
 
     getSelectedProject(): Project | null {

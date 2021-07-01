@@ -1,16 +1,9 @@
-export class Issue {
+export interface Issue {
     id: number
     state: string
     title: string
     body: string
-    comments: number = 0
-
-    constructor(id: number, state: string, title: string, body: string) {
-        this.id = id
-        this.state = state
-        this.title = title
-        this.body = body
-    }
+    comments: number | null
 }
 
 export interface IIssueRepo {

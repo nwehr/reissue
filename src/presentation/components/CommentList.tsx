@@ -54,8 +54,8 @@ const CommentList = (props: CommentListProps) => {
 
         <Form onSubmit={handleSubmitComment}>
             <Form.Group>
-                <Form.Control style={{margin: "0 0 1em 0"}} as="textarea" placeholder="Write your comment here..." value={myComment} onChange={handleChangeComment} />
-                <Button type="submit">Add Comment</Button>
+                <Form.Control style={{margin: "0 0 1em 0"}} as="textarea" placeholder="Leave a comment." value={myComment} onChange={handleChangeComment} />
+                <Button type="submit" size="sm">Comment</Button>
             </Form.Group>
         </Form>
 

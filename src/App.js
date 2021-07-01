@@ -1,12 +1,11 @@
-import IssueList from "./presentation/components/IssueList"
 import Sidebar from "./presentation/components/Sidebar"
-import { IssueListController } from "./presentation/controllers/IssueListController"
+import Project from "./presentation/components/Project"
 
 const App = () => {
 	return <div>
 		<Sidebar />
 		<div style={{marginLeft: "16em"}}>
-			<IssueList controller={new IssueListController()} />
+			<Project />
 		</div>
 	</div>
 }

@@ -12,7 +12,7 @@ const CommentCard = (props: CommentCardProps) => {
     return <Card style={{marginBottom: "1em"}}>
         <Card.Body>
             <Card.Text>{props.comment.body}</Card.Text>
-            <Card.Text>{createdAt} <b>{props.comment.author.userName}</b></Card.Text>
+            <Card.Text style={{color: "gray"}}><b>{props.comment.author.userName}</b> commented on {createdAt}</Card.Text>
         </Card.Body>
     </Card>
 }

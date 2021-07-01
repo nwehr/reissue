@@ -20,16 +20,8 @@ export class MemProjectRepo implements IProjectRepo {
         return this.projects
     }
 
-    createProject(name: string, baseUrl: string, authToken: string, schema: string = "github"): Project {
-        const project = {
-            name
-            , baseUrl
-            , authToken
-            , schema
-        }
-
+    createProject(project: Project): Project {
         this.projects.push(project)
-
         return project
     }
 }

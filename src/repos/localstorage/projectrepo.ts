@@ -11,8 +11,7 @@ export class LocalStroageProjectRepo implements IProjectRepo {
         return JSON.parse(projectsStr)
     }
 
-    createProject(name: string, baseUrl: string, authToken: string, schema: string = "github"): Project {
-        const project = { name, baseUrl, authToken, schema }
+    createProject(project: Project): Project {
         localStorage.setItem("projects", JSON.stringify([...this.getProjects(), project]))
         return project
     }

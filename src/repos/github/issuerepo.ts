@@ -18,20 +18,20 @@ export class GithubIssueRepo implements IIssueRepo {
                 const { number, state, title, body, comments } = json
                 return { id: number, state, title, body, comments }
             })
-        } catch(err) {
+        } catch (err) {
             return new Promise((resolve, reject) => {
                 reject("Oops! Could not retrieve your issues.")
             })
         }
-        
+
     }
 
     async createIssue(title: string): Promise<Issue> {
         try {
             const result = await axios.post(this.baseUrl + "/issues", { title }, { headers: { "Authorization": "Bearer " + this.authToken } })
-            const { number, state, body, comments} = result.data
+            const { number, state, body, comments } = result.data
             return { id: number, state, title: result.data.title, body, comments }
-        } catch(err) {
+        } catch (err) {
             return new Promise((resolve, reject) => {
                 reject("Oops! Could not create an issues.")
             })
