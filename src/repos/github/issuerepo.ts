@@ -1,38 +1,59 @@
 import { Issue, IIssueRepo } from "../../core/entities/issue";
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 
 export class GithubIssueRepo implements IIssueRepo {
     baseUrl: string
-    authToken: string
+    config: AxiosRequestConfig
 
     constructor(baseUrl: string, authToken: string) {
         this.baseUrl = baseUrl
-        this.authToken = authToken
+        this.config = {
+            headers: {
+                "Authorization": "Bearer " + authToken
+            }
+        }
     }
 
     async getIssues(): Promise<Issue[]> {
         try {
-            const result = await axios.get(this.baseUrl + "/issues", { headers: { "Authorization": "Bearer " + this.authToken } })
+            const resp = await axios.get(this.baseUrl + "/issues", this.config)
+            const { data } = resp
 
-            return result.data.map((json: any) => {
-                const { number, state, title, body, comments } = json
-                return { id: number, state, title, body, comments }
+            const issues = data.map((json: any) => {
+                return {
+                    id: json.number
+                    , state: json.state
+                    , title: json.title
+                    , body: json.body
+                    , comments: json.comments
+                }
             })
+
+            return issues
         } catch (err) {
-            return new Promise((resolve, reject) => {
+            return new Promise((_, reject) => {
                 reject("Oops! Could not retrieve your issues.")
             })
         }
 
     }
 
-    async createIssue(title: string): Promise<Issue> {
+    async createIssue(title: string, body: string): Promise<Issue> {
         try {
-            const result = await axios.post(this.baseUrl + "/issues", { title }, { headers: { "Authorization": "Bearer " + this.authToken } })
-            const { number, state, body, comments } = result.data
-            return { id: number, state, title: result.data.title, body, comments }
+            const resp = await axios.post(this.baseUrl + "/issues", { title, body }, this.config)
+            const { data } = resp
+
+            const issue = {
+                id: data.number
+                , state: data.state
+                , title: data.title
+                , body: data.body
+                , comments: data.comments
+            }
+
+            return issue
         } catch (err) {
-            return new Promise((resolve, reject) => {
+            return new Promise((_, reject) => {
                 reject("Oops! Could not create an issues.")
             })
         }

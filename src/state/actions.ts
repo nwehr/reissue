@@ -3,6 +3,7 @@ import { Project } from "../core/entities/project"
 export enum ActionType {
     SetSelectedProject
     , SetNumProjects
+    , IncrementCreatedIssues
 }
 
 export interface Action {
@@ -10,16 +11,23 @@ export interface Action {
     payload: string | number | Project
 }
 
-export function setSelectedProject(project: Project): Action {
+export const setSelectedProject = (project: Project): Action => {
     return {
         type: ActionType.SetSelectedProject
         , payload: project
     }
 }
 
-export function setNumProjects(numProjects: number): Action {
+export const setNumProjects = (numProjects: number): Action => {
     return {
         type: ActionType.SetNumProjects
         , payload: numProjects
+    }
+}
+
+export const incrementCreatedIssues = (numIssues: number): Action => {
+    return {
+        type: ActionType.IncrementCreatedIssues
+        , payload: 1
     }
 }

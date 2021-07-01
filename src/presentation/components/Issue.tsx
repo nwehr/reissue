@@ -17,8 +17,8 @@ const Issue = (props: IssueProps) => {
             <Card.Text>{issue.title}</Card.Text>
             {
                 issue.body
-                    ? <Card.Text>{issue.body}</Card.Text>
-                    : <Card.Text><i style={{ color: "gray" }}>No description provided.</i></Card.Text>
+                    ? <Card.Text style={{ color: "gray" }}>{issue.body}</Card.Text>
+                    : <Card.Text style={{ color: "gray" }}><i>No description provided.</i></Card.Text>
             }
 
         </Card.Body>

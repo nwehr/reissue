@@ -5,11 +5,13 @@ import { Action, ActionType } from "./actions"
 export interface AppState {
     selectedProject: Project | null
     numProjects: number
+    numCreatedIssues: number
 }
 
 const initialState: AppState = {
     selectedProject: null
     , numProjects: 0
+    , numCreatedIssues: 0
 }
 
 const rootReducer = (state: AppState = initialState, action: Action): AppState => {
@@ -18,6 +20,8 @@ const rootReducer = (state: AppState = initialState, action: Action): AppState =
             return { ...state, selectedProject: action.payload as Project }
         case ActionType.SetNumProjects:
             return { ...state, numProjects: action.payload as number }
+        case ActionType.IncrementCreatedIssues:
+            return { ...state, numCreatedIssues: action.payload as number }
         default:
             return state
     }

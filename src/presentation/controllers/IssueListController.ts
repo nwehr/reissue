@@ -28,17 +28,17 @@ export class IssueListController {
         })
     }
 
-    createIssue(title: string): Promise<Issue> {
+    createIssue(title: string, body: string): Promise<Issue> {
         const project = store.getState().selectedProject
 
         if (project) {
             if (project.schema === "gitlab") {
                 const repo = new GitlabIssueRepo(project.baseUrl, project.authToken)
-                return repo.createIssue(title)
+                return repo.createIssue(title, body)
             }
 
             const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
-            return repo.createIssue(title)
+            return repo.createIssue(title, body)
         }
 
         return new Promise((resolve, reject) => {

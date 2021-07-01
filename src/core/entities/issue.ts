@@ -8,5 +8,5 @@ export interface Issue {
 
 export interface IIssueRepo {
     getIssues(): Promise<Issue[]>
-    createIssue(title: string): Promise<Issue>
+    createIssue(title: string, body: string): Promise<Issue>
 }

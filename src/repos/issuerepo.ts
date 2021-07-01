@@ -24,13 +24,13 @@ export class MemIssueRepo implements IIssueRepo {
         })
     }
 
-    createIssue(title: string): Promise<Issue> {
+    createIssue(title: string, body: string): Promise<Issue> {
         return new Promise((resolve, reject) => {
             const issue = {
                 id: 99
                 , state: "open"
                 , title
-                , body: ""
+                , body
                 , comments: 0
             }
 
