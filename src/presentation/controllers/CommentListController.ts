@@ -1,5 +1,6 @@
 import { Comment } from "../../core/entities/comment";
 import { GithubCommentRepo } from "../../repos/github/commentrepo";
+import { GitlabCommentRepo } from "../../repos/gitlab/commentrepo";
 import store from "../../state/store";
 
 export class CommentListController {
@@ -7,17 +8,18 @@ export class CommentListController {
         const project = store.getState().selectedProject
 
         if (project) {
-            if (project.schema === "gitlab") {
-                return new Promise((resolve, reject) => {
-                    reject("Not implemented for gitlab.")
-                })
+            const { schema, baseUrl, authToken } = project
+
+            if (schema === "gitlab") {
+                const repo = new GitlabCommentRepo(baseUrl, authToken)
+                return repo.getComments(issueId)
             }
 
-            const repo = new GithubCommentRepo(project.baseUrl, project.authToken)
+            const repo = new GithubCommentRepo(baseUrl, authToken)
             return repo.getComments(issueId)
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((_, reject) => {
             reject("No project selected")
         })
     }
@@ -26,17 +28,18 @@ export class CommentListController {
         const project = store.getState().selectedProject
 
         if (project) {
-            if (project.schema === "gitlab") {
-                return new Promise((resolve, reject) => {
-                    reject("Not implemented for gitlab.")
-                })
+            const { schema, baseUrl, authToken } = project
+
+            if (schema === "gitlab") {
+                const repo = new GitlabCommentRepo(baseUrl, authToken)
+                return repo.createComment(issueId, body)
             }
 
-            const repo = new GithubCommentRepo(project.baseUrl, project.authToken)
+            const repo = new GithubCommentRepo(baseUrl, authToken)
             return repo.createComment(issueId, body)
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((_, reject) => {
             reject("No project selected")
         })
     }
