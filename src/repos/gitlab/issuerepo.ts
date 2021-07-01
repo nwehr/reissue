@@ -9,14 +9,14 @@ export class GitlabIssueRepo implements IIssueRepo {
         this.baseUrl = baseUrl
         this.config = {
             headers: {
-                "Authorization": "Bearer " + authToken
+                "Authorization": `Bearer ${authToken}`
             }
         }
     }
 
     async getIssues(): Promise<Issue[]> {
         try {
-            const resp = await axios.get(this.baseUrl + "/issues", this.config)
+            const resp = await axios.get(this.baseUrl + "/issues?state=opened", this.config)
             const { data } = resp
 
             const issues = data.map((json: any) => {

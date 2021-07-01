@@ -9,7 +9,7 @@ export class CommentListController {
         if (project) {
             if (project.schema === "gitlab") {
                 return new Promise((resolve, reject) => {
-                    reject("Comments not implemented for gitlab.")
+                    reject("Not implemented for gitlab.")
                 })
             }
 
@@ -28,7 +28,7 @@ export class CommentListController {
         if (project) {
             if (project.schema === "gitlab") {
                 return new Promise((resolve, reject) => {
-                    reject("Comments not implemented for gitlab.")
+                    reject("Not implemented for gitlab.")
                 })
             }
 

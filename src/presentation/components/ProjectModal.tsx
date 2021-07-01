@@ -65,7 +65,8 @@ const ProjectModal = (props: NewProjectModalProps) => {
                     <Form.Group controlId="formBaseUrl">
                         <Form.Label>Base URL</Form.Label>
                         <Form.Control type="text" onChange={handleUpdateBaseUrl} />
-                        <Form.Text style={{ color: "gray" }}>e.g. {"https://api.github.com/repos/{owner}/{project}"}</Form.Text>
+                        <Form.Text style={{ color: "gray" }}>{"https://api.github.com/repos/{owner}/{repo}"}</Form.Text>
+                        <Form.Text style={{ color: "gray" }}>{"https://gitlab.com/api/v4/projects/{project_id}"}</Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formAuthToken">
@@ -80,6 +81,7 @@ const ProjectModal = (props: NewProjectModalProps) => {
                             <option>github</option>
                             <option>gitlab</option>
                             <option>gitea</option>
+                            <option disabled>bitbucket</option>
                         </Form.Control>
                     </Form.Group>
                 </Form>

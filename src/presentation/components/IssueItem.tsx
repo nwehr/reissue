@@ -10,19 +10,24 @@ export interface IssueItemProps {
 }
 
 const IssueItem = (props: IssueItemProps) => {
-    const { issue } = props
+    const { issue, onCloseIssue } = props
     const [showComments, setShowComments] = useState<boolean>(false)
+
+    let numComments = ""
+
+    if (issue.comments !== null) {
+        numComments = ` (${issue.comments})`
+    }
 
     return <Card style={{ marginBottom: "1em" }}>
         <Card.Body>
-            <Button variant="outline-danger" size="sm" style={{ float: "right" }} onClick={() => props.onCloseIssue(issue.id)}>Close Issue</Button>
+            <Button variant="outline-danger" size="sm" style={{ float: "right" }} onClick={() => onCloseIssue(issue.id)}>Close Issue</Button>
             <Card.Text>{issue.title}</Card.Text>
             {
                 issue.body
                     ? <Card.Text style={{ color: "gray" }}>{issue.body}</Card.Text>
                     : <Card.Text style={{ color: "gray" }}><i>No description provided.</i></Card.Text>
             }
-
         </Card.Body>
         <Card.Footer>
             {
@@ -32,11 +37,10 @@ const IssueItem = (props: IssueItemProps) => {
                         <span className="a text-primary" onClick={() => setShowComments(false)}>Hide comments</span>
                     </div>
                     : <div>
-                        <span className="a text-primary" onClick={() => setShowComments(true)}>Comments ({issue.comments})</span>
+                        <span className="a text-primary" onClick={() => setShowComments(true)}>Comments{numComments}</span>
                     </div>
 
             }
-
         </Card.Footer>
     </Card>
 }

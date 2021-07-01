@@ -9,7 +9,7 @@ export class GithubIssueRepo implements IIssueRepo {
         this.baseUrl = baseUrl
         this.config = {
             headers: {
-                "Authorization": "Bearer " + authToken
+                "Authorization": `Bearer ${authToken}`
             }
         }
     }
