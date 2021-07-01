@@ -17,7 +17,8 @@ const ProjectList = (props: ProjectListProps) => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(controller.getSelectedProject())
 
     const handleCreateProject = (project: Project) => {
-        setProjects([...projects, controller.createProject(project)])
+        controller.createProject(project)
+        setProjects(controller.getProjects())
     }
 
     const handleSelectProject = (name: string) => () => {
