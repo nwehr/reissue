@@ -10,7 +10,7 @@ import "bootstrap/dist/css/bootstrap.css"
 import "./index.css"
 
 ReactDOM.render(
-	<Auth0Provider domain="dev-qbsxo4re.auth0.com" clientId="EYSIZKcUxrh9Xpqlm6WwjiezS6v6rfXI" redirectUri={window.location.origin}>
+	<Auth0Provider domain="dev-qbsxo4re.auth0.com" clientId="EYSIZKcUxrh9Xpqlm6WwjiezS6v6rfXI" redirectUri={window.location.origin + "/reissue"}>
 		<Provider store={store}>
 			<React.StrictMode>
 				<App />
