@@ -6,10 +6,6 @@ import Project from "./presentation/components/Project"
 const App = () => {
 	const { isAuthenticated, isLoading } = useAuth0();
 
-	if (isLoading) {
-		return <p>Loading...</p>
-	}
-
 	if (!isAuthenticated) {
 		return <>
 			<Topbar />
@@ -19,6 +15,10 @@ const App = () => {
 				<p>Get started by adding your first project!</p>
 			</div>
 		</>
+	}
+
+	if (isLoading) {
+		return <p>Loading...</p>
 	}
 
 	return <>

@@ -15,13 +15,13 @@ export class MemCommentRepo implements ICommentRepo {
     ]
 
     getComments(issueId: number): Promise<Comment[]> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             resolve(this.comments.filter((comment: any) => comment.issue_id === issueId))
         })
     }
 
     createComment(issueId: number, body: string): Promise<Comment> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             const comment = {
                 id: 99
                 , body
@@ -41,17 +41,16 @@ export class MemCommentRepo implements ICommentRepo {
     }
 
     deleteComment(issueId: number, id: number): Promise<boolean> {
-        const comments: Comment[] = []
-        
-        for (let comment of this.comments) {
-            if (comment.id != id) {
-                comments.push(comment)
-            }
-        }
-
-        this.comments = comments
-
         return new Promise((resolve, _) => {
+            const comments: Comment[] = []
+
+            for (let comment of this.comments) {
+                if (comment.id != id) {
+                    comments.push(comment)
+                }
+            }
+
+            this.comments = comments
             resolve(true)
         })
     }

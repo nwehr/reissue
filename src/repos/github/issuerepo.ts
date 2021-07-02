@@ -61,8 +61,7 @@ export class GithubIssueRepo implements IIssueRepo {
 
     async closeIssue(id: number): Promise<boolean> {
         try {
-            const resp = await axios.patch(`${this.baseUrl}/issues/${id}`, { state: "closed" }, this.config)
-            console.log(resp)
+            await axios.patch(`${this.baseUrl}/issues/${id}`, { state: "closed" }, this.config)
             return true
         } catch (err) {
             return new Promise((_, reject) => {

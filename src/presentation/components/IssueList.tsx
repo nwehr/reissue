@@ -56,7 +56,7 @@ const IssueList = (props: IssueListProps) => {
             issues
                 .filter((issue: Issue) => {
                     for (let id of closedIssueIds) {
-                        if (id == issue.id) {
+                        if (id === issue.id) {
                             return false
                         }
                     }

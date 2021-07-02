@@ -19,13 +19,13 @@ export class MemIssueRepo implements IIssueRepo {
     ]
 
     getIssues(): Promise<Issue[]> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             resolve(this.issues)
         })
     }
 
     createIssue(title: string, body: string): Promise<Issue> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             const issue = {
                 id: 99
                 , state: "open"
@@ -41,17 +41,16 @@ export class MemIssueRepo implements IIssueRepo {
     }
 
     closeIssue(id: number): Promise<boolean> {
-        const issues: Issue[] = []
-
-        for (let issue of this.issues) {
-            if (issue.id != id) {
-                issues.push(issue)
-            }
-        }
-
-        this.issues = issues
-
         return new Promise((resolve, _) => {
+            const issues: Issue[] = []
+
+            for (let issue of this.issues) {
+                if (issue.id != id) {
+                    issues.push(issue)
+                }
+            }
+
+            this.issues = issues
             resolve(true)
         })
     }

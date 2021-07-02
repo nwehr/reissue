@@ -17,7 +17,18 @@ div.topbar {
 }
 
 div.topbar p.greeting {
+    display: inline-block;
     margin-top: .5em;
+}
+
+div.topbar img.profile-picture {
+    display: inline-block;
+    
+    width: 3em;
+    height: 3em;
+    
+    margin: -0.25em .75em 0 -0.5em;
+    border-radius: 1.5em;
 }
 
 div.sidebar {

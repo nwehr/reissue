@@ -66,7 +66,7 @@ const CommentList = (props: CommentListProps) => {
             comments
                 .filter((comment: Comment) => {
                     for (let id of deletedCommentIds) {
-                        if (id == comment.id) {
+                        if (id === comment.id) {
                             return false
                         }
                     }

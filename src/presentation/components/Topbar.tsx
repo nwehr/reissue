@@ -13,11 +13,17 @@ const Topbar = () => {
 
         {
             isAuthenticated
-                ? <p className="greeting">Welcome, {user?.name}</p>
+                ? <>
+                    {
+                        user?.picture
+                            ? <img src={user?.picture} alt="Profile" className="profile-picture" />
+                            : null
+                    }
+                    <p className="greeting">Welcome, {user?.name}</p>
+                </>
                 : null
         }
-
-    </div>
+    </div >
 }
 
 export default Topbar
