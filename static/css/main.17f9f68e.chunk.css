@@ -1,0 +1,2 @@
+body{padding:1em}div.topbar{height:4em;position:fixed;top:0;left:0;right:0;background-color:rgba(0,0,0,.03);border-bottom:1px solid rgba(0,0,0,.125);padding:.75em 1em}div.topbar p.greeting{margin-top:.5em}div.sidebar{background-color:rgba(0,0,0,.03);border-right:1px solid rgba(0,0,0,.125);position:fixed;top:4em;left:0;bottom:0;width:15em}div.sidebar a.active{background-color:rgba(0,0,0,.1)}.a{cursor:pointer}.card-body{padding:.55em .75em}.card-footer{padding:.6em}.card-text{margin-bottom:.25em}
+/*# sourceMappingURL=main.17f9f68e.chunk.css.map */
