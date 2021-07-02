@@ -27,18 +27,35 @@ export class GithubCommentRepo implements ICommentRepo {
     }
 
     async createComment(issueId: number, body: string): Promise<Comment> {
-        const result = await axios.post(this.baseUrl + `/issues/${issueId}/comments`, { body }, { headers: { "Authorization": "Bearer " + this.authToken } })
-        const json = result.data
-        
-        return {
-            id: json.id
-            , body: json.body
-            , createdAt: json.created_at
-            , updatedAt: json.updated_at
-            , author: {
-                id: json.user.id
-                , userName: json.user.login
+        try {
+            const result = await axios.post(this.baseUrl + `/issues/${issueId}/comments`, { body }, { headers: { "Authorization": "Bearer " + this.authToken } })
+            const json = result.data
+            
+            return {
+                id: json.id
+                , body: json.body
+                , createdAt: json.created_at
+                , updatedAt: json.updated_at
+                , author: {
+                    id: json.user.id
+                    , userName: json.user.login
+                }
             }
+        } catch (err) {
+            return new Promise((_, reject) => {
+                reject("Oops! Could not create comment.")
+            })
+        }
+    }
+
+    async deleteComment(issueId: number, id: number): Promise<boolean> {
+        try {
+            await axios.delete(this.baseUrl + `/issues/comments/${id}`, { headers: { "Authorization": "Bearer " + this.authToken } })
+            return true
+        } catch (err) {
+            return new Promise((_, reject) => {
+                reject("Oops! Could not delete comment.")
+            })
         }
     }
 }

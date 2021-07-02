@@ -14,4 +14,5 @@ export interface Comment {
 export interface ICommentRepo {
     getComments(issueId: number): Promise<Comment[]>
     createComment(issueId: number, body: string): Promise<Comment>
+    deleteComment(issueId: number, id: number): Promise<boolean>
 }

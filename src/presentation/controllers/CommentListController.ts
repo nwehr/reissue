@@ -43,4 +43,24 @@ export class CommentListController {
             reject("No project selected")
         })
     }
+
+    deleteComment(issueId: number, id: number): Promise<boolean> {
+        const project = store.getState().selectedProject
+
+        if (project) {
+            const { schema, baseUrl, authToken } = project
+
+            if (schema === "gitlab") {
+                const repo = new GitlabCommentRepo(baseUrl, authToken)
+                return repo.deleteComment(issueId, id)
+            }
+
+            const repo = new GithubCommentRepo(baseUrl, authToken)
+            return repo.deleteComment(issueId, id)
+        }
+
+        return new Promise((_, reject) => {
+            reject("No project selected")
+        })
+    }
 }

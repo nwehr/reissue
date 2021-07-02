@@ -14,6 +14,7 @@ const CommentList = (props: CommentListProps) => {
     const [comments, setComments] = useState<Comment[]>([])
     const [myComment, setMyComment] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
+    const [deletedCommentIds, setDeletedCommentIds] = useState<number[]>([])
 
     useEffect(() => {
         const fetch = async () => {
@@ -48,13 +49,31 @@ const CommentList = (props: CommentListProps) => {
         setMyComment("")
     }
 
+    const handleDeleteComment = async (id: number) => {
+        const success = await props.controller.deleteComment(props.issueId, id)
+
+        if (success) {
+            setDeletedCommentIds([...deletedCommentIds, id])
+        }
+    }
+
     if (error) {
         return <p>{error}</p>
     }
 
     return <>
         {
-            comments.map((comment: Comment) => <CommentCard key={comment.id} comment={comment} />)
+            comments
+                .filter((comment: Comment) => {
+                    for (let id of deletedCommentIds) {
+                        if (id == comment.id) {
+                            return false
+                        }
+                    }
+
+                    return true
+                })
+                .map((comment: Comment) => <CommentCard key={comment.id} comment={comment} onDeleteComment={handleDeleteComment} />)
         }
 
         <Form onSubmit={handleSubmitComment}>

@@ -51,4 +51,9 @@ export class GitlabCommentRepo implements ICommentRepo {
 
         return comment
     }
+
+    async deleteComment(issueId: number, id: number): Promise<boolean> {
+        await axios.delete(this.baseUrl + `/issues/${issueId}/notes/${id}`, this.config)
+        return true
+    }
 }

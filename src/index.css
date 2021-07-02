@@ -2,12 +2,29 @@ body {
     padding: 1em;
 }
 
-/* style={{backgroundColor: "red", position: "fixed", top: "0", left:"0", bottom: "0"}} */
+div.topbar {
+    height: 4em;
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+
+    padding: .75em 1em;
+}
+
+div.topbar p.greeting {
+    margin-top: .5em;
+}
+
 div.sidebar {
     background-color: rgba(0, 0, 0, 0.03);
     border-right: 1px solid rgba(0, 0, 0, 0.125);
     position: fixed;
-    top: 0;
+    top: 4em;
     left: 0;
     bottom: 0;
     width: 15em;

@@ -39,4 +39,20 @@ export class MemCommentRepo implements ICommentRepo {
             resolve(comment)
         })
     }
+
+    deleteComment(issueId: number, id: number): Promise<boolean> {
+        const comments: Comment[] = []
+        
+        for (let comment of this.comments) {
+            if (comment.id != id) {
+                comments.push(comment)
+            }
+        }
+
+        this.comments = comments
+
+        return new Promise((resolve, _) => {
+            resolve(true)
+        })
+    }
 }
