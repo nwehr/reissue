@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react"
 import { Project } from "../../../core/entities/project"
 import axios from "axios"
+import { AuthToken } from "../../../core/entities/authtoken"
 
 const initialProject = {
     name: ""
     , baseUrl: ""
-    , authToken: ""
+    , authToken: {
+        name: ""
+        , token: ""
+    }
     , schema: "github"
 }
 
@@ -14,7 +18,7 @@ export const useProject = (p: Project = initialProject) => {
     const [valid, setValid] = useState(false)
 
     useEffect(() => {
-        const fieldsCompleted = project.name.length > 0 && project.baseUrl.length > 0 && project.authToken.length > 0
+        const fieldsCompleted = project.name.length > 0 && project.baseUrl.length > 0
 
         if (!fieldsCompleted) {
             setValid(false)
@@ -25,7 +29,7 @@ export const useProject = (p: Project = initialProject) => {
             try {
                 await axios.get(project.baseUrl, {
                     headers: {
-                        "Authorization": "Bearer " + project.authToken
+                        "Authorization": "Bearer " + project.authToken.token
                     }
                 })
 
@@ -47,12 +51,16 @@ export const useProject = (p: Project = initialProject) => {
         setProject({ ...project, baseUrl: e.currentTarget.value.trim() })
     }
 
-    const updateAuthToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setProject({ ...project, authToken: e.currentTarget.value.trim() })
+    const updateAuthToken = (authToken: AuthToken) => {
+        setProject({ ...project, authToken })
     }
 
     const updateSchema = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setProject({ ...project, schema: e.currentTarget.value.trim() })
+    }
+
+    const reset = () => {
+        setProject(initialProject)
     }
 
     return {
@@ -62,6 +70,7 @@ export const useProject = (p: Project = initialProject) => {
         , updateBaseUrl
         , updateAuthToken
         , updateSchema
+        , reset
     }
 }
 

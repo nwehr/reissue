@@ -5,13 +5,19 @@ export class MemProjectRepo implements IProjectRepo {
         {
             name: ""
             , baseUrl: "http://someendpoint"
-            , authToken: "abc123"
+            , authToken: {
+                name: "123abc"
+                , token: "123abc"
+            }
             , schema: "github"
         }
         , {
             name: ""
             , baseUrl: "http://anotherendpoint"
-            , authToken: "123abc"
+            , authToken: {
+                name: "123abc"
+                , token: "123abc"
+            }
             , schema: "gitlab"
         }
     ]

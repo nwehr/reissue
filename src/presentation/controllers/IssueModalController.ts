@@ -12,11 +12,11 @@ export class IssueModalController {
             const { baseUrl, authToken, schema } = project
 
             if (schema === "gitlab") {
-                const repo = new GitlabIssueRepo(baseUrl, authToken)
+                const repo = new GitlabIssueRepo(baseUrl, authToken.token)
                 return repo.createIssue(title, body)
             }
 
-            const repo = new GithubIssueRepo(baseUrl, authToken)
+            const repo = new GithubIssueRepo(baseUrl, authToken.token)
             const issue = await repo.createIssue(title, body)
 
             // Launch nuclear missiles

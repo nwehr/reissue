@@ -1,6 +1,6 @@
-import { AuthToken, AuthTokenRepo } from "../core/entities/authtoken"
+import { AuthToken, IAuthTokenRepo } from "../core/entities/authtoken"
 
-export class MemAuthTokenRepo implements AuthTokenRepo {
+export class AuthTokenRepo implements IAuthTokenRepo {
     tokens: AuthToken[] = []
 
     getTokens(): AuthToken[] {

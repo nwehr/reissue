@@ -1,6 +1,6 @@
 import { Project, IProjectRepo } from "../../core/entities/project"
 
-export class LocalStroageProjectRepo implements IProjectRepo {
+export class ProjectRepo implements IProjectRepo {
     getProjects(): Project[] {
         const projectsStr = localStorage.getItem("projects")
 
@@ -9,10 +9,11 @@ export class LocalStroageProjectRepo implements IProjectRepo {
         }
 
         const projects: Project[] = JSON.parse(projectsStr)
-        
-        return projects.sort((a: Project, b: Project) => {
-            return a.name < b.name ? -1 : 1
-        })
+
+        return projects
+            .sort((a: Project, b: Project) => {
+                return a.name < b.name ? -1 : 1
+            })
     }
 
     createProject(project: Project): Project {

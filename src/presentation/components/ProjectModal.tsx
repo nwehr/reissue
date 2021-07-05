@@ -1,7 +1,9 @@
+import { useEffect } from "react"
 import { Button, Modal, Form } from "react-bootstrap"
 import { Project } from "../../core/entities/project"
-import { useProject, useProjectConnectionTest } from "./hooks/newproject"
+import { useProject } from "./hooks/project"
 import { useModal } from "./hooks/modal"
+import AuthTokenSelect from "./AuthTokenSelect"
 
 
 interface NewProjectModalProps {
@@ -10,15 +12,18 @@ interface NewProjectModalProps {
 
 const ProjectModal = (props: NewProjectModalProps) => {
     const { isOpen, open, close } = useModal()
-    const { project, valid, updateName, updateBaseUrl, updateAuthToken, updateSchema } = useProject()
-    const { success, error, testConnection } = useProjectConnectionTest(project)
+    const { project, valid, updateName, updateBaseUrl, updateAuthToken, updateSchema, reset } = useProject()
+
+    useEffect(() => {
+        if (isOpen) {
+            reset()
+        }
+    }, [isOpen])
 
     const save = () => {
         props.onSubmitNewProject(project)
         close()
     }
-
-    console.log("valid", valid)
 
     return <>
         <Button onClick={open} style={{ position: "absolute", bottom: "1em", left: "1em", width: "calc(100% - 2em)" }}>Add Project</Button>
@@ -28,34 +33,24 @@ const ProjectModal = (props: NewProjectModalProps) => {
                 <Modal.Title>Add Project</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {
-                    error
-                        ? <p className="text-danger">{error}</p>
-                        : null
-                }
-
                 <Form>
                     <Form.Group controlId="formName">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" onChange={updateName} />
+                        <Form.Control type="text" onChange={updateName} value={project.name} />
                     </Form.Group>
 
                     <Form.Group controlId="formBaseUrl">
                         <Form.Label>Base URL</Form.Label>
-                        <Form.Control type="text" onChange={updateBaseUrl} />
+                        <Form.Control type="text" onChange={updateBaseUrl} value={project.baseUrl} />
                         <Form.Text style={{ color: "gray" }}>{"https://api.github.com/repos/{owner}/{repo}"}</Form.Text>
                         <Form.Text style={{ color: "gray" }}>{"https://gitlab.com/api/v4/projects/{project_id}"}</Form.Text>
                     </Form.Group>
 
-                    <Form.Group controlId="formAuthToken">
-                        <Form.Label>Personal Access Token</Form.Label>
-                        <Form.Control type="password" onChange={updateAuthToken} />
-                        <Form.Text style={{ color: "gray" }}>See <a href="https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank" rel="noreferrer">docs</a> on creating a personal access token.</Form.Text>
-                    </Form.Group>
+                    <AuthTokenSelect authToken={project.authToken} onSelectAuthToken={updateAuthToken} />
 
-                    <Form.Group controlId="formAuthToken">
+                    <Form.Group controlId="formSchema">
                         <Form.Label>Schema</Form.Label>
-                        <Form.Control as="select" onChange={updateSchema}>
+                        <Form.Control as="select" onChange={updateSchema} value={project.schema}>
                             <option>github</option>
                             <option>gitlab</option>
                             <option>gitea</option>
@@ -65,9 +60,6 @@ const ProjectModal = (props: NewProjectModalProps) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={success && valid ? "success" : "secondary"} onClick={testConnection}>
-                    Test Connection
-                </Button>
                 <Button variant="secondary" onClick={close}>
                     Close
                 </Button>

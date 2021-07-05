@@ -3,7 +3,7 @@ export interface AuthToken {
     token: string
 }
 
-export interface AuthTokenRepo {
+export interface IAuthTokenRepo {
     getTokens(): AuthToken[]
     getTokenByName(name: string): AuthToken | null
     createToken(token: AuthToken): AuthToken

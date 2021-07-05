@@ -15,11 +15,11 @@ export class IssueListController {
 
         if (project) {
             if (project.schema === "gitlab") {
-                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken)
+                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken.token)
                 return repo.getIssues()
             }
 
-            const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
+            const repo = new GithubIssueRepo(project.baseUrl, project.authToken.token)
             return repo.getIssues()
         }
 
@@ -33,11 +33,11 @@ export class IssueListController {
 
         if (project) {
             if (project.schema === "gitlab") {
-                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken)
+                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken.token)
                 return repo.createIssue(title, body)
             }
 
-            const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
+            const repo = new GithubIssueRepo(project.baseUrl, project.authToken.token)
             return repo.createIssue(title, body)
         }
 
@@ -51,11 +51,11 @@ export class IssueListController {
 
         if (project) {
             if (project.schema === "gitlab") {
-                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken)
+                const repo = new GitlabIssueRepo(project.baseUrl, project.authToken.token)
                 return repo.closeIssue(id)
             }
 
-            const repo = new GithubIssueRepo(project.baseUrl, project.authToken)
+            const repo = new GithubIssueRepo(project.baseUrl, project.authToken.token)
             return repo.closeIssue(id)
         }
 

@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { Project } from "../../../core/entities/project"
 import { ProjectListController } from "../../controllers/ProjectListController"
-import { LocalStroageProjectRepo } from "../../../repos/localstorage/projectrepo"
+import { ProjectRepo } from "../../../repos/localstorage/projectrepo"
 
-const defaultController = new ProjectListController(new LocalStroageProjectRepo())
+const defaultController = new ProjectListController(new ProjectRepo())
 
 export const useProjects = (controller: ProjectListController = defaultController) => {
     const [projects, setProjects] = useState<Project[]>(controller.getProjects())

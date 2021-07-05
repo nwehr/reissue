@@ -11,11 +11,11 @@ export class CommentListController {
             const { schema, baseUrl, authToken } = project
 
             if (schema === "gitlab") {
-                const repo = new GitlabCommentRepo(baseUrl, authToken)
+                const repo = new GitlabCommentRepo(baseUrl, authToken.token)
                 return repo.getComments(issueId)
             }
 
-            const repo = new GithubCommentRepo(baseUrl, authToken)
+            const repo = new GithubCommentRepo(baseUrl, authToken.token)
             return repo.getComments(issueId)
         }
 
@@ -31,11 +31,11 @@ export class CommentListController {
             const { schema, baseUrl, authToken } = project
 
             if (schema === "gitlab") {
-                const repo = new GitlabCommentRepo(baseUrl, authToken)
+                const repo = new GitlabCommentRepo(baseUrl, authToken.token)
                 return repo.createComment(issueId, body)
             }
 
-            const repo = new GithubCommentRepo(baseUrl, authToken)
+            const repo = new GithubCommentRepo(baseUrl, authToken.token)
             return repo.createComment(issueId, body)
         }
 
@@ -51,11 +51,11 @@ export class CommentListController {
             const { schema, baseUrl, authToken } = project
 
             if (schema === "gitlab") {
-                const repo = new GitlabCommentRepo(baseUrl, authToken)
+                const repo = new GitlabCommentRepo(baseUrl, authToken.token)
                 return repo.deleteComment(issueId, id)
             }
 
-            const repo = new GithubCommentRepo(baseUrl, authToken)
+            const repo = new GithubCommentRepo(baseUrl, authToken.token)
             return repo.deleteComment(issueId, id)
         }
 
