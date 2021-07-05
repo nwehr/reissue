@@ -7,6 +7,10 @@ const App = () => {
 	const { isAuthenticated, isLoading } = useAuth0();
 
 	if (!isAuthenticated) {
+		if (isLoading) {
+			return <p>Loading...</p>
+		}
+
 		return <>
 			<Topbar />
 			<div style={{ marginTop: "4em" }}>
@@ -15,10 +19,6 @@ const App = () => {
 				<p>Get started by adding your first project!</p>
 			</div>
 		</>
-	}
-
-	if (isLoading) {
-		return <p>Loading...</p>
 	}
 
 	return <>

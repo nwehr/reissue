@@ -4,7 +4,7 @@ import { Row, Col, Button } from "react-bootstrap"
 import { AppState } from "../../state/store"
 import { IssueListController } from "../controllers/IssueListController"
 import IssueList from "./IssueList"
-import ProjectIcon from "./ProjectIcon"
+import { withIcon } from "./withIcon"
 import IssueModal from "./IssueModal"
 import { IssueModalController } from "../controllers/IssueModalController"
 
@@ -24,10 +24,12 @@ const Project = () => {
         return <></>
     }
 
+    const { name, schema } = selectedProject
+
     return <>
         <Row>
             <Col md={6}>
-                <h4><ProjectIcon schema={selectedProject.schema} /> {selectedProject.name}</h4>
+                <h4>{withIcon(name, schema)}</h4>
                 <p>{selectedProject.baseUrl}</p>
             </Col>
             <Col>

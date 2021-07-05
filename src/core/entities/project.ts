@@ -1,7 +1,9 @@
+import { AuthToken } from "./authtoken";
+
 export interface Project {
     name: string
     baseUrl: string
-    authToken: string
+    authToken: AuthToken | string
     schema: string
 }
 

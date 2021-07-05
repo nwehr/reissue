@@ -1,83 +1,61 @@
-import { useState } from "react"
 import { Button, Modal, Form } from "react-bootstrap"
 import { Project } from "../../core/entities/project"
+import { useProject, useProjectConnectionTest } from "./hooks/newproject"
+import { useModal } from "./hooks/modal"
+
 
 interface NewProjectModalProps {
     onSubmitNewProject: (project: Project) => void
 }
 
 const ProjectModal = (props: NewProjectModalProps) => {
-    const [showModal, setShowModal] = useState<boolean>(false)
-    const [project, setProject] = useState<Project>({ name: "", baseUrl: "", authToken: "", schema: "github" })
+    const { isOpen, open, close } = useModal()
+    const { project, valid, updateName, updateBaseUrl, updateAuthToken, updateSchema } = useProject()
+    const { success, error, testConnection } = useProjectConnectionTest(project)
 
-    const handleShow = () => {
-        setProject({ name: "", baseUrl: "", authToken: "", schema: "github" })
-        setShowModal(true)
-    }
-
-    const handleClose = () => {
-        setShowModal(false)
-    }
-
-    const handleSave = () => {
+    const save = () => {
         props.onSubmitNewProject(project)
-        setShowModal(false)
+        close()
     }
 
-    const handleUpdateName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setProject({ ...project, name: e.currentTarget.value })
-    }
-
-    const handleUpdateBaseUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setProject({ ...project, baseUrl: e.currentTarget.value.trim() })
-    }
-
-    const handleUpdateAuthToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setProject({ ...project, authToken: e.currentTarget.value.trim() })
-    }
-
-    const handleUpdateSchema = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setProject({ ...project, schema: e.currentTarget.value.trim() })
-    }
-
-    const valid = () => {
-        if (!project.name || !project.baseUrl || !project.authToken) {
-            return false
-        }
-
-        return true
-    }
+    console.log("valid", valid)
 
     return <>
-        <Button onClick={handleShow} style={{ position: "absolute", bottom: "1em", left: "1em", width: "calc(100% - 2em)" }}>Add Project</Button>
+        <Button onClick={open} style={{ position: "absolute", bottom: "1em", left: "1em", width: "calc(100% - 2em)" }}>Add Project</Button>
 
-        <Modal show={showModal} onHide={handleClose}>
+        <Modal show={isOpen} onHide={close}>
             <Modal.Header closeButton>
                 <Modal.Title>Add Project</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {
+                    error
+                        ? <p className="text-danger">{error}</p>
+                        : null
+                }
+
                 <Form>
                     <Form.Group controlId="formName">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" onChange={handleUpdateName} />
+                        <Form.Control type="text" onChange={updateName} />
                     </Form.Group>
 
                     <Form.Group controlId="formBaseUrl">
                         <Form.Label>Base URL</Form.Label>
-                        <Form.Control type="text" onChange={handleUpdateBaseUrl} />
+                        <Form.Control type="text" onChange={updateBaseUrl} />
                         <Form.Text style={{ color: "gray" }}>{"https://api.github.com/repos/{owner}/{repo}"}</Form.Text>
                         <Form.Text style={{ color: "gray" }}>{"https://gitlab.com/api/v4/projects/{project_id}"}</Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formAuthToken">
                         <Form.Label>Personal Access Token</Form.Label>
-                        <Form.Control type="password" onChange={handleUpdateAuthToken} />
+                        <Form.Control type="password" onChange={updateAuthToken} />
                         <Form.Text style={{ color: "gray" }}>See <a href="https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank" rel="noreferrer">docs</a> on creating a personal access token.</Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formAuthToken">
                         <Form.Label>Schema</Form.Label>
-                        <Form.Control as="select" onChange={handleUpdateSchema}>
+                        <Form.Control as="select" onChange={updateSchema}>
                             <option>github</option>
                             <option>gitlab</option>
                             <option>gitea</option>
@@ -87,10 +65,13 @@ const ProjectModal = (props: NewProjectModalProps) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant={success && valid ? "success" : "secondary"} onClick={testConnection}>
+                    Test Connection
+                </Button>
+                <Button variant="secondary" onClick={close}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleSave} disabled={!valid()}>
+                <Button variant="primary" onClick={save} disabled={!valid}>
                     Add Project
                 </Button>
             </Modal.Footer>

@@ -21,24 +21,31 @@ const IssueItem = (props: IssueItemProps) => {
 
     return <Card style={{ marginBottom: "1em" }}>
         <Card.Body>
-            <Button variant="outline-danger" size="sm" style={{ float: "right" }} onClick={() => onCloseIssue(issue.id)}>Close Issue</Button>
+            <Button variant="outline-danger" size="sm" style={{ float: "right" }} onClick={() => onCloseIssue(issue.id)}>
+                Close Issue
+            </Button>
+
             <Card.Text>{issue.title}</Card.Text>
-            {
-                issue.body
-                    ? <Card.Text style={{ color: "gray" }}>{issue.body}</Card.Text>
-                    : <Card.Text style={{ color: "gray" }}><i>No description provided.</i></Card.Text>
-            }
+            <Card.Text style={{ color: "gray" }}>
+                {
+                    issue.body
+                        ? issue.body
+                        : <i>No description provided.</i>
+                }
+            </Card.Text>
         </Card.Body>
         <Card.Footer>
             {
                 showComments
-                    ? <div>
+                    ? <>
                         <CommentList issueId={issue.id} controller={new CommentListController()} />
-                        <span className="a text-primary" onClick={() => setShowComments(false)}>Hide comments</span>
-                    </div>
-                    : <div>
-                        <span className="a text-primary" onClick={() => setShowComments(true)}>Comments{numComments}</span>
-                    </div>
+                        <span className="a text-primary" onClick={() => setShowComments(false)}>
+                            Hide comments
+                        </span>
+                    </>
+                    : <span className="a text-primary" onClick={() => setShowComments(true)}>
+                        Comments{numComments}
+                    </span>
 
             }
         </Card.Footer>

@@ -2,7 +2,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "react-bootstrap"
 
 const Topbar = () => {
-    const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+    const { user, isAuthenticated, loginWithRedirect, logout, getIdTokenClaims } = useAuth0();
+
+    const claims = getIdTokenClaims()
+    claims.then((value) => {
+        console.log("token")
+        console.log(value)
+    })
 
     return <div className="topbar">
         {

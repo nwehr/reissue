@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Issue } from "../../core/entities/issue"
 import { AppState } from "../../state/store"
-
 import { IssueListController } from "../controllers/IssueListController"
 import IssueItem from "./IssueItem"
 
